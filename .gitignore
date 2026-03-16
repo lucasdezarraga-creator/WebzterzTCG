@@ -39,3 +39,22 @@
 
 # debug information files
 *.dwo
+
+# Node / React
+node_modules/
+dist/
+.env
+
+# C++ Build Artifacts
+*.wasm
+*.js.mem
+
+# IDEs
+.vscode/
+.idea/
+*.cbp
+*.layout
+
+# OS stuff
+.DS_Store
+Thumbs.db
