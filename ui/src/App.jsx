@@ -10,14 +10,13 @@ function App() {
   const [musicVol, setMusicVol] = useState(50);
   const [SFXVol, setSFXVol] = useState(50);
   const [isEndless, setIsEndless] = useState(false);
+  const [score, setScore] = useState(0);
 
-  // --- 2. THE RENDER LOGIC ---
   return (
-    <div className="gameWrapper">
-      
+    <div>
       {currentScreen === 'TITLE' && (
         <div className="titleScreen">
-          <img className = "logo" src = {Logo} alt = "The logo" style = {{ width: '90%', maxWidth: '500px', height: 'auto', display: 'block', margin: '0 auto', imageRendering: 'pixelated'}}/>
+          <img className = "logo" src = {Logo} alt = "The logo"/>
           <button onClick={() => { setIsEndless(false); setCurrentScreen('SELECTION'); }}>Microgames</button>
           <button onClick={() => { setIsEndless(true); setCurrentScreen('INTERMISSION'); }}>Endless</button>
           <button onClick={() => setCurrentScreen('SETTINGS')}>Settings</button>
@@ -50,18 +49,22 @@ function App() {
         <div className="intermissionScreen">
           <h3>Round {round}</h3>
           <div className="wifi-meter">📶 {HP} bars</div>
+          <div className = "score">Score: {score}</div>
           <button onClick={() => setCurrentScreen('GAMEON')}>GO!</button>
         </div>
       )}
 
       {currentScreen === 'GAMEON' && (
         <div className="playGame">
-          <div className="game-canvas">
-            <p>Playing Game...</p>
-          </div>
+          <p>Playing Game...</p>
           <button onClick={() => setCurrentScreen('SUCCESS')}>Win</button>
           <button onClick={() => setCurrentScreen('FAILURE')}>Fail</button>
-          <button onClick={() => setCurrentScreen('TITLE')}>Back</button>
+          <button onClick={() => {
+            setCurrentScreen('TITLE');
+            setHP(4);
+            setRound(1);
+            setScore(0);
+            }}>Back</button>
         </div>
       )}
 
@@ -72,9 +75,17 @@ function App() {
             if (currentScreen === 'FAILURE' && HP <= 1) {
               setCurrentScreen('GAMEOVER');
             } else {
-              if (currentScreen === 'FAILURE') setHP(HP - 1);
+              if (currentScreen === 'FAILURE') {
+              setHP(HP - 1);
               setRound(round + 1);
               setCurrentScreen('INTERMISSION');
+              } else { 
+                if(currentScreen === 'SUCCESS'){
+                  setScore(score + 10);
+                  setRound(round + 1);
+                  setCurrentScreen('INTERMISSION');
+                }
+              }
             }
           }}>Next</button>
         </div>
@@ -86,6 +97,7 @@ function App() {
           <button onClick={() => { 
             setHP(4); 
             setRound(1); 
+            setScore(0);
             setCurrentScreen('INTERMISSION'); 
           }}>Play Again</button>
           <button onClick={() => { setCurrentScreen('TITLE') }}>Quit</button>
