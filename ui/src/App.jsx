@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import GameCanvas from './GameHandler';
 import sprites from './utils/assets';
+import { useGameEngine } from './hook/useGameEngine';
 
 function App() {
   // --- 1. STATES MUST LIVE HERE (Top level of component) ---
@@ -12,6 +13,7 @@ function App() {
   const [SFXVol, setSFXVol] = useState(50);
   const [isEndless, setIsEndless] = useState(false);
   const [score, setScore] = useState(0);
+  const isReady = useGameEngine();
 
   return (
     <div>
@@ -58,7 +60,6 @@ function App() {
       {currentScreen === 'GAMEON' && (
         <div className="playGame">
           <p>Playing Game...</p>
-          <GameCanvas />
           <button onClick={() => setCurrentScreen('SUCCESS')}>Win</button>
           <button onClick={() => setCurrentScreen('FAILURE')}>Fail</button>
           <button className = "back" onClick={() => {
@@ -109,8 +110,9 @@ function App() {
       {currentScreen === 'CREDITS' && (
         <div className = "creditsScreen">
           <h1>Credits</h1>
-          <p>All assets done by me.</p>
-          <button className = "back" onClick={() => {setCurrentScreen('TITLE')}}>Back</button>
+          <p>All sprites and audio are done by me, Lucas De-Zarraga.</p>
+          <p>Ready 2P font was from Google fonts.</p>
+          <button className = "back" onClick={() => {setCurrentScreen('TITLE')}}/>
         </div>
       )}
     </div>

@@ -11,6 +11,7 @@ export function useGameEngine() {
     }
 
     if (window.Module && window.Module.onRuntimeInitialized) {
+      console.log("Hook confirmed: Engine is already initialized!");
       setIsReady(true);
       return;
     }
